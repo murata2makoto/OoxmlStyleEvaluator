@@ -30,4 +30,5 @@ Although implemented in F#, the public API is designed for easy consumption from
 ...
 
 ## License
-MIT License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
