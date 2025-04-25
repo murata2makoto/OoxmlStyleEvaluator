@@ -6,7 +6,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="OptionMonad.fs" />
+    <Compile Include="XmlHelpers.fs" />
+    <Compile Include="DocumentDefaults.fs" />
+    <Compile Include="StyleInheritance.fs" />
+    <Compile Include="StyleEvaluatorUtilities.fs" />
+    <Compile Include="RunStyleEvaluator.fs" />
+    <Compile Include="ParagraphStyleEvaluator.fs" />
+    <Compile Include="TableStyleHelpers.fs" />
+    <Compile Include="ParagraphStyle.Detection.fs" />
+    <Compile Include="CharacterDetection.fs" />
+    <Compile Include="ParagraphStyle.TableHelpers.fs" />
+    <Compile Include="StyleEvaluator.fs" />
   </ItemGroup>
+
+  <ItemGroup />
 
 </Project>

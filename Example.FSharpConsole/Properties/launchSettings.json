@@ -1,0 +1,18 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "ItemizedLists": {
+      "commandName": "Project",
+      "commandLineArgs": "SampleItemizedList.docx",
+      "workingDirectory": "F:\\APP\\OoxmlStyleEvaluator\\"
+    },
+    "HeadingParagraphs": {
+      "commandName": "Project",
+      "commandLineArgs": "SampleHeadingParagraphs.docx",
+      "workingDirectory": "F:\\APP\\OoxmlStyleEvaluator\\"
+    }
+  }
+}
