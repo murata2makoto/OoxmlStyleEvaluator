@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+	  
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="XmlHelpers.fs" />
+    <Compile Include="PropertyTypes.fs" />
+    <Compile Include="PropertyExtractor.fs" />
+    <Compile Include="ChangeTrackingDetection.fs" />
+    <Compile Include="StyleUtilities.fs" />
+    <Compile Include="DocumentDefaults.fs" />
+    <Compile Include="Style Inheritance\CharacterStyleInheritance.fs" />
+    <Compile Include="Style Inheritance\ParagraphStyleInheritance.fs" />
+    <Compile Include="Style Inheritance\NumberingStyleInheritance.fs" />
+    <Compile Include="Style Inheritance\TableStyleInheritance.fs" />
+    <Compile Include="Direct Properties\RunDirectProperties.fs" />
+    <Compile Include="Direct Properties\ParagraphDirectProperties.fs" />
+    <Compile Include="Direct Properties\TableDirectProperties.fs" />
+    <Compile Include="Style Hierarchy\RunPropertiesEvaluator.fs" />
+    <Compile Include="Style Hierarchy\ParagraphPropertiesEvaluator.fs" />
+    <Compile Include="Style Hierarchy\TableCellPropertiesEvaluator.fs" />
+    <Compile Include="Style Hierarchy\TableRowPropertiesEvaluator.fs" />
+    <Compile Include="Style Hierarchy\TablePropertiesEvaluator.fs" />
+    <Content Include="PPr.txt" />
+    <Content Include="RPr.txt" />
+    <Content Include="tcPr.txt" />
+    <Content Include="trPr.txt" />
+    <Content Include="tblPr.txt" />
+    <Content Include="箇条書き番号についての方針.txt" />
+    <Compile Include="Accessors\ParagraphPropertyAccessors.fs" />
+    <Compile Include="Accessors\RunPropertyAccessors.fs" />
+    <Compile Include="Accessors\TableCellPropertyAccessors.fs" />
+    <Compile Include="Accessors\TableRowPropertyAccessors.fs" />
+    <Compile Include="Accessors\TablePropertyAccessors.fs" />
+    <Compile Include="FindNearestPreceding.fs" />
+    <Compile Include="CreateOutlines.fs" />
+    <Compile Include="StyleEvaluator.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\OutlineAlgorithm\OutlineAlgorithm\OutlineAlgorithm.fsproj" />
+  </ItemGroup>
+
+</Project>
