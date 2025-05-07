@@ -30,6 +30,10 @@ In particular, OoxmlStyleEvaluator faithfully implements the style resolution mo
 
 Recent clarifications and improvements from the drafts are fully incorporated.
 
+### Warning 
+
+As of 2025 May, OoxmlStyleEvaluator is still non-conformant.  It is expected to be conformant when **ISO/IEC CD 29500-1:2025** and **ISO/IEC CD 29500-4:2025** are published as International Standards.
+
 ## Key Features
 
 - **System.Xml.Linq-based**  
