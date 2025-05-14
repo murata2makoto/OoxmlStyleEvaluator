@@ -1,5 +1,6 @@
 ﻿namespace OoxmlStyleEvaluator
 
+open System
 open System.IO.Compression
 open System.Xml.Linq
 open OoxmlStyleEvaluator.XmlHelpers

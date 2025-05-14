@@ -36,19 +36,19 @@ let main argv =
                     let levelOpt = evaluator.GetHeadingLevel(para)
                     let labelOpt = evaluator.GetHeadingNumberLabel(para)
                     match levelOpt, labelOpt with
-                    | level, "" when level > 0 ->
-                        Console.WriteLine($"Heading (Level {level}): (no label)")
-                    |  level,  label when level >= 0 ->
+                    | Some level, Some label ->
                         Console.WriteLine($"Heading (Level {level}): {label}")
+                    | Some level, None ->
+                        Console.WriteLine($"Heading (Level {level}): (no label)")
                     | _ -> ()
                 elif evaluator.IsBulletParagraph(para) then
                     let levelOpt = evaluator.GetBulletLevel(para)
                     let labelOpt = evaluator.GetBulletLabel(para)
                     match levelOpt, labelOpt with
-                    | level, "" when level > 0 ->
-                        Console.WriteLine($"Bullet (Level {level}): (no label)")
-                    | level, label  when level >= 0->
+                    | Some level, Some label ->
                         Console.WriteLine($"Bullet (Level {level}): {label}")
+                    | Some level, None ->
+                        Console.WriteLine($"Bullet (Level {level}): (no label)")
                     | _ -> ()
 
             0

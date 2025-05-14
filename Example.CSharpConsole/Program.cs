@@ -41,32 +41,29 @@ class Program
 
         foreach (var para in paras)
         {
-            if (evaluator.IsHeadingParagraph(para))
-            {
-                var level = evaluator.GetHeadingLevel(para);
-                var label = evaluator.GetHeadingNumberLabel(para);
+            var level = evaluator.GetHeadingLevelNullable(para);
+            var label = evaluator.GetHeadingNumberLabelNullable(para);
 
-                if (level > 0 && string.IsNullOrEmpty(label))
-                {
-                    Console.WriteLine($"Heading (Level {level}): (no label)");
-                }
-                else if (level >= 0)
-                {
-                    Console.WriteLine($"Heading (Level {level}): {label}");
-                }
+            if (level.HasValue && label != null)
+            {
+                Console.WriteLine($"Heading (Level {level.Value}): {label}");
             }
-            else if (evaluator.IsBulletParagraph(para))
+            else if (level.HasValue)
             {
-                var level = evaluator.GetBulletLevel(para);
-                var label = evaluator.GetBulletLabel(para);
+                Console.WriteLine($"Heading (Level {level.Value}): (no label)");
+            }
+            else
+            {
+                var bulletLevel = evaluator.GetBulletLevelNullable(para);
+                var bulletLabel = evaluator.GetBulletLabelNullable(para);
 
-                if (level > 0 && string.IsNullOrEmpty(label))
+                if (bulletLevel.HasValue && bulletLabel != null)
                 {
-                    Console.WriteLine($"Bullet (Level {level}): (no label)");
+                    Console.WriteLine($"Bullet (Level {bulletLevel.Value}): {bulletLabel}");
                 }
-                else if (level >= 0)
+                else if (bulletLevel.HasValue)
                 {
-                    Console.WriteLine($"Bullet (Level {level}): {label}");
+                    Console.WriteLine($"Bullet (Level {bulletLevel.Value}): (no label)");
                 }
             }
         }
