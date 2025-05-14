@@ -366,6 +366,8 @@ FodyWeavers.xsd
 # OOXML
 *.docx
 *.pptx
+
+# Others
 /cyclic.txt
 /new.dib
 /numberingAndStyles.dib
