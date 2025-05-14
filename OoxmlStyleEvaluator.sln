@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85
+VisualStudioVersion = 17.13.35818.85 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "OoxmlStyleEvaluator", "OoxmlStyleEvaluator\OoxmlStyleEvaluator.fsproj", "{9E3B1162-1C34-4609-8222-C675F8678D51}"
 EndProject
