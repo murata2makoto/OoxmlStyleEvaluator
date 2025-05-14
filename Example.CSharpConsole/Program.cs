@@ -32,7 +32,6 @@ class Program
         {
             documentXml = XDocument.Load(stream);
         }
-
         var evaluator = new StyleEvaluator(archive, documentXml);
 
         var paras = documentXml.Root?
@@ -41,30 +40,16 @@ class Program
 
         foreach (var para in paras)
         {
-            var level = evaluator.GetHeadingLevelNullable(para);
-            var label = evaluator.GetHeadingNumberLabelNullable(para);
+            var level = evaluator.GetHeadingLevel(para);
+            var label = evaluator.GetHeadingNumberLabel(para);
 
-            if (level.HasValue && label != null)
+            if (level >= 0 && label != "")
             {
-                Console.WriteLine($"Heading (Level {level.Value}): {label}");
+                Console.WriteLine($"Heading (Level {level}): {label}");
             }
-            else if (level.HasValue)
+            else if (level >= 0)
             {
-                Console.WriteLine($"Heading (Level {level.Value}): (no label)");
-            }
-            else
-            {
-                var bulletLevel = evaluator.GetBulletLevelNullable(para);
-                var bulletLabel = evaluator.GetBulletLabelNullable(para);
-
-                if (bulletLevel.HasValue && bulletLabel != null)
-                {
-                    Console.WriteLine($"Bullet (Level {bulletLevel.Value}): {bulletLabel}");
-                }
-                else if (bulletLevel.HasValue)
-                {
-                    Console.WriteLine($"Bullet (Level {bulletLevel.Value}): (no label)");
-                }
+                Console.WriteLine($"Heading (Level {level}): (no label)");
             }
         }
 

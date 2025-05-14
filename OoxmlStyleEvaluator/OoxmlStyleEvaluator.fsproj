@@ -43,7 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\OutlineAlgorithm\OutlineAlgorithm\OutlineAlgorithm.fsproj" />
+    <PackageReference Include="OutlineAlgorithm" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup />

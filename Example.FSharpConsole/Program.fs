@@ -33,21 +33,22 @@ let main argv =
 
             for para in paras do
                 if evaluator.IsHeadingParagraph(para) then
-                    let levelOpt = evaluator.GetHeadingLevel(para)
-                    let labelOpt = evaluator.GetHeadingNumberLabel(para)
-                    match levelOpt, labelOpt with
-                    | Some level, Some label ->
+
+                    let level = evaluator.GetHeadingLevel(para)
+                    let label = evaluator.GetHeadingNumberLabel(para)
+                    match level, label with
+                    | level,  label when level <> -1 && label <> "" ->
                         Console.WriteLine($"Heading (Level {level}): {label}")
-                    | Some level, None ->
+                    | level, label when label = "" ->
                         Console.WriteLine($"Heading (Level {level}): (no label)")
                     | _ -> ()
                 elif evaluator.IsBulletParagraph(para) then
                     let levelOpt = evaluator.GetBulletLevel(para)
                     let labelOpt = evaluator.GetBulletLabel(para)
                     match levelOpt, labelOpt with
-                    | Some level, Some label ->
+                    | level, label  when level <> -1 && label <> "" ->
                         Console.WriteLine($"Bullet (Level {level}): {label}")
-                    | Some level, None ->
+                    | level, label when label = "" ->
                         Console.WriteLine($"Bullet (Level {level}): (no label)")
                     | _ -> ()
 

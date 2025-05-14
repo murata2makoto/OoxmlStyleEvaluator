@@ -42,7 +42,7 @@ let resolveEffectiveCellProperties (cellElement: XElement) (stylesRoot: XElement
         | None -> Map.empty
 
     // Step 3: Resolve tcPr properties directly specified in the cell
-    let cellProperties = resolveCellProperties cellElement
+    let cellProperties = resolveDirectCellProperties cellElement
 
     // Step 4: Combine properties in order of priority
     mergeProperties tableStyleProperties cellProperties

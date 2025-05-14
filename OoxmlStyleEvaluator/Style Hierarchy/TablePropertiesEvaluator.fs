@@ -36,7 +36,7 @@ let resolveEffectiveTableProperties (tableElement: XElement) (stylesRoot: XEleme
         | None -> Map.empty
 
     // Step 2: Resolve tblPr properties directly specified in the table
-    let directTableProperties = resolveTableProperties tableElement
+    let directTableProperties = resolveDirectTableProperties tableElement
 
     // Step 3: Combine properties in order of priority
     mergeProperties tableStyleProperties directTableProperties

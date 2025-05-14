@@ -9,8 +9,6 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Example.FSharpConsole", "Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CSharpConsole", "Example.CSharpConsole\Example.CSharpConsole.csproj", "{FA7732FC-7D13-4232-84AF-C6AEF76F807E}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "OutlineAlgorithm", "..\OutlineAlgorithm\OutlineAlgorithm\OutlineAlgorithm.fsproj", "{6E133925-E830-CE44-E668-2A9E57B34A18}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{FA7732FC-7D13-4232-84AF-C6AEF76F807E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA7732FC-7D13-4232-84AF-C6AEF76F807E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA7732FC-7D13-4232-84AF-C6AEF76F807E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E133925-E830-CE44-E668-2A9E57B34A18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E133925-E830-CE44-E668-2A9E57B34A18}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E133925-E830-CE44-E668-2A9E57B34A18}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E133925-E830-CE44-E668-2A9E57B34A18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

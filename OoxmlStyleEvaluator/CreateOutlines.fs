@@ -2,12 +2,13 @@
 
 open System.Xml.Linq
 open System.Collections.Generic
-open OutlineAlgorithm.OutlineIndex
-open OutlineAlgorithm.TreeAndHedge
+open OutlineAlgorithm.Interop.InteropFSharp
+open OutlineAlgorithm.Interop
+open OutlineAlgorithm
 
-let generateOutlineIndices (hedge: Hedge<XElement>) =
+let generateOutlineIndices (tree: InteropTree<XElement>) =
     let dict = new Dictionary<XElement, int list>()
     let addToDictionary (label: XElement) (outlineIndex: int list): unit =
         dict.[label] <- outlineIndex
-    visitHedge hedge [] addToDictionary
+    traverseWithOutlineIndex tree addToDictionary
     dict

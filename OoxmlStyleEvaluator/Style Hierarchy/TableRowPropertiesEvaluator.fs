@@ -42,7 +42,7 @@ let resolveEffectiveRowProperties (rowElement: XElement) (stylesRoot: XElement):
         | None -> Map.empty
 
     // Step 3: Resolve trPr properties directly specified in the row
-    let rowProperties = resolveRowProperties rowElement
+    let rowProperties = resolveDirectRowProperties rowElement
 
     // Step 4: Combine properties in order of priority
     mergeProperties tableStyleProperties rowProperties

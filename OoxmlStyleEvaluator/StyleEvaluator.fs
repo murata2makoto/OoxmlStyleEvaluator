@@ -1,4 +1,4 @@
-﻿namespace OoxmlStyleEvaluator
+﻿namespace  OoxmlStyleEvaluator
 
 open System
 open System.IO.Compression
@@ -10,7 +10,7 @@ open OoxmlStyleEvaluator.XmlHelpers
 /// </summary>
 /// <param name="archive">The ZIP archive of the DOCX file.</param>
 /// <param name="documentXml">The loaded XDocument of word/document.xml.</param>
-type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
+type public StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
 
     // Load styles.xml root element
     let stylesRoot : XElement =
@@ -165,12 +165,15 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
             | None -> acc
         ) Map.empty
 
+    member _.Archive = archive
+    member _.DocumentXml = documentXml
+
     /// <summary>
     /// Determines if the given paragraph is a heading paragraph based on its style definition.
     /// </summary>
     /// <param name="para">The paragraph (w:p element) to check.</param>
     /// <returns>True if it is a heading paragraph; otherwise, false.</returns>
-    member _.IsHeadingParagraph(para: XElement) : bool =
+    member public  _.IsHeadingParagraph(para: XElement) : bool =
         let pPrOpt = tryElement (w + "pPr") para
         let pStyleIdOpt =
             pPrOpt
@@ -194,7 +197,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// </summary>
     /// <param name="para">The paragraph (w:p element).</param>
     /// <returns>The heading level (0-based) if available; otherwise, -1.</returns>
-    member _.GetHeadingLevel(para: XElement) : int  =
+    member public  _.GetHeadingLevel(para: XElement) : int  =
         let pPrOpt = tryElement (w + "pPr") para
         let pStyleIdOpt =
             pPrOpt
@@ -223,7 +226,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// </summary>
     /// <param name="para">The paragraph (w:p element).</param>
     /// <returns>The heading number label if available; otherwise, the empty string.</returns>
-    member _.GetHeadingNumberLabel(para: XElement) : string  =
+    member public  _.GetHeadingNumberLabel(para: XElement) : string  =
         paras
         |> List.tryFindIndex (fun p -> System.Object.ReferenceEquals(p, para))
         |> Option.bind (fun idx -> headingNumberLabels |> Map.tryFind idx)
@@ -234,7 +237,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// </summary>
     /// <param name="para">The paragraph (w:p element) to check.</param>
     /// <returns>True if it is a list item; otherwise, false.</returns>
-    member _.IsBulletParagraph(para: XElement) : bool =
+    member public  _.IsBulletParagraph(para: XElement) : bool =
         tryElement (w + "pPr") para
         |> Option.bind (tryElement (w + "numPr"))
         |> Option.isSome
@@ -244,7 +247,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// </summary>
     /// <param name="para">The paragraph (w:p element).</param>
     /// <returns>The bullet/numbering level if available; otherwise, -1.</returns>
-    member _.GetBulletLevel(para: XElement): int  =
+    member public  _.GetBulletLevel(para: XElement): int  =
         tryElement (w + "pPr") para
         |> Option.bind (tryElement (w + "numPr"))
         |> Option.bind (tryElement (w + "ilvl"))
@@ -261,7 +264,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// </summary>
     /// <param name="para">The paragraph (w:p element).</param>
     /// <returns>The expanded bullet or numbering label if available; otherwise, the empty string.</returns>
-    member this.GetBulletLabel(para: XElement) : string  =
+    member public  this.GetBulletLabel(para: XElement) : string  =
         paras
         |> List.tryFindIndex (fun p -> System.Object.ReferenceEquals(p, para))
         |> Option.bind (fun idx -> bulletNumberLabels |> Map.tryFind idx |> Option.bind id)
@@ -358,7 +361,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// </summary>
     /// <param name="run">The run (w:r element) to check.</param>
     /// <returns>True if the run is italicized; otherwise, false.</returns>
-    member this.IsRunItalic(run: XElement) : bool =
+    member public  this.IsRunItalic(run: XElement) : bool =
         this.IsRunPropertyEnabled(run, "i")
 
     /// <summary>
@@ -366,7 +369,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// </summary>
     /// <param name="run">The run (w:r element) to check.</param>
     /// <returns>True if the run is struck through; otherwise, false.</returns>
-    member this.IsRunStrike(run: XElement) : bool =
+    member public this.IsRunStrike(run: XElement) : bool =
         this.IsRunPropertyEnabled(run, "strike")
 
     /// <summary>
@@ -374,7 +377,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// </summary>
     /// <param name="run">The run (w:r element) to check.</param>
     /// <returns>True if the run uses capital letters; otherwise, false.</returns>
-    member this.IsRunCaps(run: XElement) : bool =
+    member public this.IsRunCaps(run: XElement) : bool =
         this.IsRunPropertyEnabled(run, "caps")
 
     /// <summary>
@@ -385,7 +388,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// <returns>
     /// The underline type string if set (e.g., "single"), or an empty string if no underline is specified.
     /// </returns>
-    member _.GetEffectiveUnderlineType(run: XElement) : string =
+    member public  _.GetEffectiveUnderlineType(run: XElement) : string =
         let tryGetUnderlineValue (rPr: XElement) =
             tryElement (w + "u") rPr
             |> Option.bind (fun uElem -> tryAttrValue (w + "val") uElem)
@@ -468,7 +471,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// <returns>
     /// The color value (hex RGB string, e.g., "FF0000") if specified; otherwise, an empty string.
     /// </returns>
-    member _.GetEffectiveColor(run: XElement) : string =
+    member public _.GetEffectiveColor(run: XElement) : string =
         let tryGetColorValue (rPr: XElement) =
             tryElement (w + "color") rPr
             |> Option.bind (fun colorElem -> tryAttrValue (w + "val") colorElem)
@@ -550,7 +553,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// <param name="run">The run (w:r element) to evaluate.</param>
     /// <param name="script">The script attribute to target ("ascii", "eastAsia", "hAnsi", or "cs").</param>
     /// <returns>The font name if specified; otherwise, an empty string.</returns>
-    member _.GetEffectiveFont(run: XElement, script: string) : string =
+    member public _.GetEffectiveFont(run: XElement, script: string) : string =
         let tryGetFontValue (rPr: XElement) =
             tryElement (w + "rFonts") rPr
             |> Option.bind (fun rFontsElem ->
@@ -711,49 +714,49 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// <summary>
     /// Gets the effective ASCII font name for the given run.
     /// </summary>
-    member this.GetEffectiveAsciiFont(run: XElement) : string =
+    member public this.GetEffectiveAsciiFont(run: XElement) : string =
         this.GetEffectiveFontAttribute(run, "ascii")
 
     /// <summary>
     /// Gets the effective ASCII theme font name for the given run.
     /// </summary>
-    member this.GetEffectiveAsciiThemeFont(run: XElement) : string =
+    member public this.GetEffectiveAsciiThemeFont(run: XElement) : string =
         this.GetEffectiveFontAttribute(run, "asciiTheme")
 
     /// <summary>
     /// Gets the effective High ANSI font name for the given run.
     /// </summary>
-    member this.GetEffectiveHAnsiFont(run: XElement) : string =
+    member public this.GetEffectiveHAnsiFont(run: XElement) : string =
         this.GetEffectiveFontAttribute(run, "hAnsi")
 
     /// <summary>
     /// Gets the effective High ANSI theme font name for the given run.
     /// </summary>
-    member this.GetEffectiveHAnsiThemeFont(run: XElement) : string =
+    member public this.GetEffectiveHAnsiThemeFont(run: XElement) : string =
         this.GetEffectiveFontAttribute(run, "hAnsiTheme")
 
     /// <summary>
     /// Gets the effective East Asia font name for the given run.
     /// </summary>
-    member this.GetEffectiveEastAsiaFont(run: XElement) : string =
+    member public this.GetEffectiveEastAsiaFont(run: XElement) : string =
         this.GetEffectiveFontAttribute(run, "eastAsia")
 
     /// <summary>
     /// Gets the effective East Asia theme font name for the given run.
     /// </summary>
-    member this.GetEffectiveEastAsiaThemeFont(run: XElement) : string =
+    member public this.GetEffectiveEastAsiaThemeFont(run: XElement) : string =
         this.GetEffectiveFontAttribute(run, "eastAsiaTheme")
 
     /// <summary>
     /// Gets the effective Complex Script font name for the given run.
     /// </summary>
-    member this.GetEffectiveCsFont(run: XElement) : string =
+    member public this.GetEffectiveCsFont(run: XElement) : string =
         this.GetEffectiveFontAttribute(run, "cs")
 
     /// <summary>
     /// Gets the effective Complex Script theme font name for the given run.
     /// </summary>
-    member this.GetEffectiveCsThemeFont(run: XElement) : string =
+    member public this.GetEffectiveCsThemeFont(run: XElement) : string =
         this.GetEffectiveFontAttribute(run, "cstheme")
 
     /// <summary>
@@ -762,7 +765,7 @@ type StyleEvaluator(archive: ZipArchive, documentXml: XDocument) =
     /// </summary>
     /// <param name="run">The run (w:r element) to evaluate.</param>
     /// <returns>The emphasis mark value if specified; otherwise, an empty string.</returns>
-    member _.GetEffectiveEmphasisMark(run: XElement) : string =
+    member public _.GetEffectiveEmphasisMark(run: XElement) : string =
         let tryGetEmphasisValue (rPr: XElement) =
             tryElement (w + "em") rPr
             |> Option.bind (fun emElem -> tryAttrValue (w + "val") emElem)
