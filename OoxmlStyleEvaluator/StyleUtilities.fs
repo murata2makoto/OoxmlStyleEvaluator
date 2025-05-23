@@ -2,14 +2,13 @@
 
 open System.Xml.Linq
 open OoxmlStyleEvaluator.XmlHelpers
+open PropertyExtractor
 
 /// Extracts properties from an optional XElement and converts them into a map.
-let extractProperties (elementOpt: XElement option) : Map<string, XElement> =
+let extractProperties (elementOpt: XElement option) : Map<string, string> =
     match elementOpt with
     | Some element -> 
-        element.Elements() 
-        |> Seq.map (fun e -> e.Name.LocalName.ToString(), e) 
-        |> Map.ofSeq
+        extractPropertiesAsMap element
     | None -> Map.empty
 
 /// Resolves the `basedOn` attribute for a given style.
@@ -38,12 +37,14 @@ let tryGetStyleId (node: XElement) (prTag: string) (styleTag: string) : string o
 /// <param name="name">The property name to check.</param>
 /// <returns>True if the property is a toggle property; otherwise, false.</returns>
 let isToggleProperty (name: string) : bool =
-    let local =
-        if name.Contains "}" then name.Substring(name.IndexOf('}') + 1)
-        else name
-    [ "b"; "bcs"; "caps"; "emboss"; "i"; "iCs"; "imprint"; 
-      "outline"; "shadow"; "smallCaps"; "strike"; "vanish" ]
-    |> List.contains local
+
+    let toggleProperties = 
+        [ "b"; "bcs"; "caps"; "emboss"; "i"; "iCs"; "imprint"; 
+          "outline"; "shadow"; "smallCaps"; "strike"; "vanish" ]
+    
+    toggleProperties 
+    |> List.exists (fun prop ->
+            name.EndsWith($"w:{prop}/@w:val" ))
 
 /// <summary>
 /// Computes a 3-way XOR for toggle property combination across multiple style levels.
@@ -55,13 +56,14 @@ let isToggleProperty (name: string) : bool =
 /// The effective toggle result: Some true if an odd number of true values exist;
 /// Some false if an even number; otherwise, None if no value exists.
 /// </returns>
-let xor3 (a: bool option) (b: bool option) (c: bool option) : bool option =
-    let values = [a; b; c] |> List.choose id
-    match values.Length with
-    | 0 -> None
-    | 1 | 3 -> Some true
-    | 2 -> Some false
-    | _ -> failwith "Shouldn't happen"
+let xor3 (a: bool option) (b: bool option) (c: bool option) : bool  =
+    match a, b, c with
+    | Some(x), Some(y), Some(z) -> x <> y <> z
+    | Some(x), Some(y), None | Some(x), None, Some(y) 
+    | None, Some(x), Some(y) -> x<>y
+    | Some(x), None, None | None, Some(x), None 
+    | None, None, Some(x) -> x
+    | None, None, None -> false
 
 /// <summary>
 /// Retrieves the effective boolean value of a toggle property (e.g., bold, italic) from a property map.
@@ -72,15 +74,12 @@ let xor3 (a: bool option) (b: bool option) (c: bool option) : bool option =
 /// Some true, Some false depending on the property value;
 /// or None if the property does not exist.
 /// </returns>
-let getToggleValue (propMap: Map<string, XElement>) (name: string) : bool option =
-    match propMap.TryFind name with
-    | Some e ->
-        match tryAttrValue (w + "val") e with
-        | None -> Some true  // <w:b/> etc. without val means true
-        | Some "true" | Some "1" -> Some true
-        | Some "false" | Some "0" -> Some false
-        | _ -> None
+let getToggleValue (propMap: Map<string, string>) (name: string) : bool option  =
+    match propMap.TryFind name |> Option.map (fun x -> x.Trim()) with
     | None -> None
+    | Some "true" | Some "1" ->  Some(true)
+    | Some "false" | Some "0" ->  Some(false)
+    | Some(_) -> failwith "Shouldn't happen"
 
 /// <summary>
 /// Finds a style element by its ID and ensures it is of the specified type".

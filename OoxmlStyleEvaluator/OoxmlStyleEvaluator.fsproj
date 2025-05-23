@@ -14,13 +14,10 @@
     <Compile Include="ChangeTrackingDetection.fs" />
     <Compile Include="StyleUtilities.fs" />
     <Compile Include="DocumentDefaults.fs" />
+    <Compile Include="LoadFromArchive.fs" />
     <Compile Include="Style Inheritance\CharacterStyleInheritance.fs" />
     <Compile Include="Style Inheritance\ParagraphStyleInheritance.fs" />
-    <Compile Include="Style Inheritance\NumberingStyleInheritance.fs" />
     <Compile Include="Style Inheritance\TableStyleInheritance.fs" />
-    <Compile Include="Direct Properties\RunDirectProperties.fs" />
-    <Compile Include="Direct Properties\ParagraphDirectProperties.fs" />
-    <Compile Include="Direct Properties\TableDirectProperties.fs" />
     <Compile Include="Style Hierarchy\RunPropertiesEvaluator.fs" />
     <Compile Include="Style Hierarchy\ParagraphPropertiesEvaluator.fs" />
     <Compile Include="Style Hierarchy\TableCellPropertiesEvaluator.fs" />
@@ -32,20 +29,18 @@
     <Content Include="trPr.txt" />
     <Content Include="tblPr.txt" />
     <Content Include="箇条書き番号についての方針.txt" />
-    <Compile Include="Accessors\ParagraphPropertyAccessors.fs" />
-    <Compile Include="Accessors\RunPropertyAccessors.fs" />
-    <Compile Include="Accessors\TableCellPropertyAccessors.fs" />
-    <Compile Include="Accessors\TableRowPropertyAccessors.fs" />
-    <Compile Include="Accessors\TablePropertyAccessors.fs" />
     <Compile Include="FindNearestPreceding.fs" />
     <Compile Include="CreateOutlines.fs" />
-    <Compile Include="StyleEvaluator.fs" />
+	<Compile Include="StyleEvaluator\StyleEvaluator.fs" />
+	<Compile Include="StyleEvaluator\ParagraphPropertyAccessors.fs" />
+	<Compile Include="StyleEvaluator\RunPropertyAccessors.fs" />
+	<Compile Include="StyleEvaluator\TableCellPropertyAccessors.fs" />
+	<Compile Include="StyleEvaluator\TableRowPropertyAccessors.fs" />
+	<Compile Include="StyleEvaluator\TablePropertyAccessors.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="OutlineAlgorithm" Version="1.0.0" />
   </ItemGroup>
-
-  <ItemGroup />
 
 </Project>

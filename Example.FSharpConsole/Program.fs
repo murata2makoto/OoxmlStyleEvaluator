@@ -3,6 +3,7 @@ open System.IO
 open System.IO.Compression
 open System.Xml.Linq
 open OoxmlStyleEvaluator
+open OoxmlStyleEvaluator.ParagraphPropertyAccessors
 
 [<EntryPoint>]
 let main argv =
@@ -18,38 +19,32 @@ let main argv =
             1
         else
             use archive = ZipFile.OpenRead(docxPath)
-            let documentXml =
-                archive.GetEntry("word/document.xml")
-                |> Option.ofObj
-                |> Option.map (fun entry -> XDocument.Load(entry.Open()))
-                |> Option.defaultWith (fun () -> failwith "document.xml not found in the DOCX file.")
 
-            let evaluator = StyleEvaluator(archive, documentXml)
+            let evaluator = StyleEvaluator(archive)
+            let documentRoot = evaluator.DocumentRoot
 
             let paras =
-                match documentXml.Root with
-                | null -> []
-                | root -> root.Descendants(XmlHelpers.w + "p") |> Seq.toList
+                documentRoot.Descendants(XmlHelpers.w + "p") 
 
             for para in paras do
-                if evaluator.IsHeadingParagraph(para) then
-
+                if evaluator.IsHeadingParagraph(para) then 
                     let level = evaluator.GetHeadingLevel(para)
-                    let label = evaluator.GetHeadingNumberLabel(para)
-                    match level, label with
-                    | level,  label when level <> -1 && label <> "" ->
-                        Console.WriteLine($"Heading (Level {level}): {label}")
-                    | level, label when label = "" ->
-                        Console.WriteLine($"Heading (Level {level}): (no label)")
+                    match level with
+                    | -1  ->
+                        Console.WriteLine("shouldn't happen")
+                    | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 ->
+                        Console.WriteLine($"Level {level} Heading")
                     | _ -> ()
+                    evaluator.GetNumLevel(para) |> printfn "Num level %d"
+                    evaluator.GetNumId(para) |> printfn "Num id %d"
                 elif evaluator.IsBulletParagraph(para) then
-                    let levelOpt = evaluator.GetBulletLevel(para)
-                    let labelOpt = evaluator.GetBulletLabel(para)
-                    match levelOpt, labelOpt with
-                    | level, label  when level <> -1 && label <> "" ->
-                        Console.WriteLine($"Bullet (Level {level}): {label}")
-                    | level, label when label = "" ->
-                        Console.WriteLine($"Bullet (Level {level}): (no label)")
+                    let numLevel = evaluator.GetNumLevel(para)
+                    match numLevel with
+                    | -1  ->
+                        Console.WriteLine("shouldn't happen")
+                    | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 ->
+                        Console.WriteLine($"Level {numLevel} bullet")
                     | _ -> ()
+                    evaluator.GetNumId(para) |> printfn "Num id %d"
 
             0
