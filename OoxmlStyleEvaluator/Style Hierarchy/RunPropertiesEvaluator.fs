@@ -31,7 +31,6 @@ let resolveEffectiveRunProperties (runElement: XElement) (stylesRoot: XElement):
             let styleIdOpt =
                 tbl
                 |> tryElement (w + "tblPr")
-                |> Option.bind (tryElement (w + "tblStyle"))
                 |> Option.bind (tryAttrValue (w + "val"))
 
             match styleIdOpt with
