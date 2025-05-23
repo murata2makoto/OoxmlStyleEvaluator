@@ -1,9 +1,7 @@
 ﻿open System
 open System.IO
 open System.IO.Compression
-open System.Xml.Linq
 open OoxmlStyleEvaluator
-open OoxmlStyleEvaluator.ParagraphPropertyAccessors
 
 [<EntryPoint>]
 let main argv =
@@ -37,6 +35,7 @@ let main argv =
                     | _ -> ()
                     evaluator.GetNumLevel(para) |> printfn "Num level %d"
                     evaluator.GetNumId(para) |> printfn "Num id %d"
+                    printfn "%s" para.Value
                 elif evaluator.IsBulletParagraph(para) then
                     let numLevel = evaluator.GetNumLevel(para)
                     match numLevel with
@@ -46,5 +45,6 @@ let main argv =
                         Console.WriteLine($"Level {numLevel} bullet")
                     | _ -> ()
                     evaluator.GetNumId(para) |> printfn "Num id %d"
+                    printfn "%s" para.Value
 
             0

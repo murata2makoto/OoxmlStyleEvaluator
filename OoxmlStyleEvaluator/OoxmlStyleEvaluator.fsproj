@@ -31,12 +31,13 @@
     <Content Include="箇条書き番号についての方針.txt" />
     <Compile Include="FindNearestPreceding.fs" />
     <Compile Include="CreateOutlines.fs" />
+    <Compile Include="StyleEvaluator\StyleEvaluatorState.fs" />
+    <Compile Include="StyleEvaluator\ParagraphPropertyAccessors.fs" />
+    <Compile Include="StyleEvaluator\RunPropertyAccessors.fs" />
+    <Compile Include="StyleEvaluator\TableCellPropertyAccessors.fs" />
+    <Compile Include="StyleEvaluator\TableRowPropertyAccessors.fs" />
+    <Compile Include="StyleEvaluator\TablePropertyAccessors.fs" />
 	<Compile Include="StyleEvaluator\StyleEvaluator.fs" />
-	<Compile Include="StyleEvaluator\ParagraphPropertyAccessors.fs" />
-	<Compile Include="StyleEvaluator\RunPropertyAccessors.fs" />
-	<Compile Include="StyleEvaluator\TableCellPropertyAccessors.fs" />
-	<Compile Include="StyleEvaluator\TableRowPropertyAccessors.fs" />
-	<Compile Include="StyleEvaluator\TablePropertyAccessors.fs" />
   </ItemGroup>
 
   <ItemGroup>

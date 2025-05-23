@@ -4,7 +4,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Xml.Linq;
 using OoxmlStyleEvaluator;
-using static OoxmlStyleEvaluator.ParagraphPropertyAccessors;
 
 class Program
 {
@@ -34,18 +33,38 @@ class Program
 
         foreach (var para in paras)
         {
-            if (evaluator.IsHeadingParagraph(para)) { 
-                var level = evaluator.ParagraphStyleResolver
-                var label = evaluator.GetHeadingNumberLabel(para);
-            }
+            if (evaluator.IsHeadingParagraph(para))
+            {
+                int level = evaluator.GetHeadingLevel(para);
+                switch (level)
+                {
+                    case -1:
+                        Console.WriteLine("shouldn't happen");
+                        break;
+                    case int n when n >= 0 && n <= 9:
+                        Console.WriteLine($"Level {level} Heading");
+                        break;
+                }
 
-            if (level >= 0 && label != "")
-            {
-                Console.WriteLine($"Heading (Level {level}): {label}");
+                Console.WriteLine($"Num level {evaluator.GetNumLevel(para)}");
+                Console.WriteLine($"Num id {evaluator.GetNumId(para)}");
+                Console.WriteLine($"{para.Value}");
             }
-            else if (level >= 0)
+            else if (evaluator.IsBulletParagraph(para))
             {
-                Console.WriteLine($"Heading (Level {level}): (no label)");
+                int numLevel = evaluator.GetNumLevel(para);
+                switch (numLevel)
+                {
+                    case -1:
+                        Console.WriteLine("shouldn't happen");
+                        break;
+                    case int n when n >= 0 && n <= 9:
+                        Console.WriteLine($"Level {numLevel} bullet");
+                        break;
+                }
+
+                Console.WriteLine($"Num id {evaluator.GetNumId(para)}");
+                Console.WriteLine($"{para.Value}");
             }
         }
 
