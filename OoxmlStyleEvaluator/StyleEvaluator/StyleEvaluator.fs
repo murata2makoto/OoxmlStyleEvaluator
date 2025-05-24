@@ -145,7 +145,7 @@ type public StyleEvaluator(archive: ZipArchive) =
     member public this.IsRunCaps(run) = isRunCaps state run
 
     /// <summary>Gets the shading pattern of the run.</summary>
-    member public this.GetRunShadingPattern(run) = getRunShadingPattern state run
+    member public this.GetRunShadingVal(run) = getRunShadingVal state run
     
     // -------- Cell Properties --------
 
