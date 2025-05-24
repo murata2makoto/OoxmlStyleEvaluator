@@ -10,6 +10,10 @@ open LoadFromArchive
 open PropertyExtractor
 open ParagraphPropertyAccessors
 open RunPropertyAccessors
+open TableCellPropertyAccessors
+open TableRowPropertyAccessors
+open TablePropertyAccessors
+
 
 
 /// <summary>
@@ -84,10 +88,10 @@ type public StyleEvaluator(archive: ZipArchive) =
     member public this.GetRunProperty(run, key, defaultValue) = getRunProperty state run key defaultValue
 
     /// <summary>Gets a boolean run property value (e.g., bold or italic).</summary>
-    member public this.GetRunPropertyBool(run, key) = getRunPropertyBool state run key
+    member public this.GetRunPropertyBool(run, key, defaultValue) = getRunPropertyBool state run key defaultValue
 
     /// <summary>Gets an integer run property value (e.g., spacing).</summary>
-    member public this.GetRunPropertyInt(run, key) = getRunPropertyInt state run key
+    member public this.GetRunPropertyInt(run, key, defaultValue) = getRunPropertyInt state run key defaultValue
 
     /// <summary>Gets the effective emphasis mark (e.g., "dot", "comma") for the run.</summary>
     member public this.GetEmphasisMark(run) = getEmphasisMark state run
@@ -142,3 +146,27 @@ type public StyleEvaluator(archive: ZipArchive) =
 
     /// <summary>Gets the shading pattern of the run.</summary>
     member public this.GetRunShadingPattern(run) = getRunShadingPattern state run
+    
+    // -------- Cell Properties --------
+
+    /// <summary>
+    /// Resolves the effective value of a run property for a given cell element,
+    /// considering direct formatting, character/paragraph/table styles, and document defaults.
+    /// </summary>
+    member public this.ResolveCellProperty(cell, key) = resolveCellProperty state cell key
+
+    // -------- Row Properties --------
+
+    /// <summary>
+    /// Resolves the effective value of a run property for a given cell element,
+    /// considering direct formatting, character/paragraph/table styles, and document defaults.
+    /// </summary>
+    member public this.ResolvRowProperty(row, key) = resolveRowProperty state row key
+
+    // -------- Table Properties --------
+
+    /// <summary>
+    /// Resolves the effective value of a run property for a given cell element,
+    /// considering direct formatting, character/paragraph/table styles, and document defaults.
+    /// </summary>
+    member public this.ResolveTableProperty(tbl, key) = resolveTableProperty state tbl key

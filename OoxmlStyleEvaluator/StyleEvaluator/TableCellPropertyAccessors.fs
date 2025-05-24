@@ -14,3 +14,12 @@ module TableCellPropertyAccessors =
             state.TableStyleResolver
             state.GetPropertyByKey
             key
+            
+    let getCellProperty state run key defaultValue =
+        resolveCellProperty state run key |> Option.defaultValue defaultValue
+
+    let getCellPropertyBool state run key defaultValue =
+        resolveCellProperty state run key |> Option.map System.Boolean.Parse |> Option.defaultValue  defaultValue
+
+    let getCellPropertyInt state run key defaultValue =
+        resolveCellProperty state run key |> Option.map int |> Option.defaultValue defaultValue

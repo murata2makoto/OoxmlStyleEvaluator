@@ -21,11 +21,11 @@ module RunPropertyAccessors =
     let getRunProperty state run key defaultValue =
         resolveRunProperty state run key |> Option.defaultValue defaultValue
 
-    let getRunPropertyBool state run key =
-        resolveRunProperty state run key |> Option.map System.Boolean.Parse |> Option.defaultValue false
+    let getRunPropertyBool state run key defaultValue =
+        resolveRunProperty state run key |> Option.map System.Boolean.Parse |> Option.defaultValue defaultValue
 
-    let getRunPropertyInt state run key =
-        resolveRunProperty state run key |> Option.map int |> Option.defaultValue 0
+    let getRunPropertyInt state run key defaultValue =
+        resolveRunProperty state run key |> Option.map int |> Option.defaultValue defaultValue
 
     let getEmphasisMark state run =
         getRunProperty state run "em/@val" "none"
@@ -46,10 +46,10 @@ module RunPropertyAccessors =
     let getColorValue state run = getRunProperty state run "color/@val" "auto"
     let getThemeColor state run = getRunProperty state run "color/@themeColor" "none"
     let getSz state run = getRunProperty state run "sz/@val" ""
-    let getSpacingValue state run = getRunPropertyInt state run "spacing/@val"
-    let isItalic state run = getRunPropertyBool state run "i/@val"
-    let isBold state run = getRunPropertyBool state run "b/@val"
+    let getSpacingValue state run = getRunPropertyInt state run "spacing/@val" 0
+    let isItalic state run = getRunPropertyBool state run "i/@val" false
+    let isBold state run = getRunPropertyBool state run "b/@val" false
     let getUnderlineType state run = getRunProperty state run "u/@val" "none"
-    let isRunStrike state run = getRunPropertyBool state run "strike/@val"
-    let isRunCaps state run = getRunPropertyBool state run "caps/@val"
-    let getRunShadingPattern state run = getRunProperty state run "shd/@fill" "none"
+    let isRunStrike state run = getRunPropertyBool state run "strike/@val" false
+    let isRunCaps state run = getRunPropertyBool state run "caps/@val" false
+    let getRunShadingVal state run = getRunProperty state run "shd/@val" "nil"

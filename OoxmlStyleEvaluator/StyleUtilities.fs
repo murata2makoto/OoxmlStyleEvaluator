@@ -11,6 +11,7 @@ let extractProperties (elementOpt: XElement option) : Map<string, string> =
         extractPropertiesAsMap element
     | None -> Map.empty
 
+
 /// Resolves the `basedOn` attribute for a given style.
 let resolveBasedOn (style: XElement) : string option =
     style
