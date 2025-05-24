@@ -24,7 +24,7 @@ type public StyleEvaluator(archive: ZipArchive) =
     let documentRoot = loadDocumentXml archive
     let stylesRoot : XElement = loadStyles archive
 
-    let state =
+    let state: StyleEvaluatorState =
         {
             StylesRoot = stylesRoot
             DocDefaultsRPr = getRPrDocDefaults stylesRoot
@@ -155,18 +155,44 @@ type public StyleEvaluator(archive: ZipArchive) =
     /// </summary>
     member public this.ResolveCellProperty(cell, key) = resolveCellProperty state cell key
 
+    /// <summary>Gets a string cell property value with a default.</summary>
+    member public this.GetCellProperty(cell, key, defaultValue) = getCellProperty state cell key defaultValue
+
+    /// <summary>Gets a boolean cell property value.</summary>
+    member public this.GetCellPropertyBool(cell, key, defaultValue) = getCellPropertyBool state cell key defaultValue
+
+    /// <summary>Gets an integer cell property value.</summary>
+    member public this.GetCellPropertyInt(cell, key, defaultValue) = getCellPropertyInt state cell key defaultValue
+
     // -------- Row Properties --------
 
     /// <summary>
-    /// Resolves the effective value of a run property for a given cell element,
+    /// Resolves the effective value of a run property for a given row element,
     /// considering direct formatting, character/paragraph/table styles, and document defaults.
     /// </summary>
-    member public this.ResolvRowProperty(row, key) = resolveRowProperty state row key
+    member public this.ResolveRowProperty(row, key) = resolveRowProperty state row key
+    
+    /// <summary>Gets a string row property value with a default.</summary>
+    member public this.GetRowProperty(row, key, defaultValue) = getRowProperty state row key defaultValue
 
+    /// <summary>Gets a boolean row property value.</summary>
+    member public this.GetRowPropertyBool(row, key, defaultValue) = getRowPropertyBool state row key defaultValue
+
+    /// <summary>Gets an integer row property value.</summary>
+    member public this.GetRowPropertyInt(row, key, defaultValue) = getRowPropertyInt state row key defaultValue
     // -------- Table Properties --------
 
     /// <summary>
-    /// Resolves the effective value of a run property for a given cell element,
+    /// Resolves the effective value of a run property for a given tbl element,
     /// considering direct formatting, character/paragraph/table styles, and document defaults.
     /// </summary>
     member public this.ResolveTableProperty(tbl, key) = resolveTableProperty state tbl key
+    
+    /// <summary>Gets a string tbl property value with a default.</summary>
+    member public this.GetTableProperty(tbl, key, defaultValue) = getTableProperty state tbl key defaultValue
+
+    /// <summary>Gets a boolean tbl property value.</summary>
+    member public this.GetTablePropertyBool(tbl, key, defaultValue) = getTablePropertyBool state tbl key defaultValue
+
+    /// <summary>Gets an integer tbl property value.</summary>
+    member public this.GetTablePropertyInt(tbl, key, defaultValue) = getTablePropertyInt state tbl key defaultValue
