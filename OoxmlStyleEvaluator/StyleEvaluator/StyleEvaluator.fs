@@ -76,6 +76,8 @@ type public StyleEvaluator(archive: ZipArchive) =
     /// <summary>Gets the character spacing value (in twentieths of a point).</summary>
     member public this.GetCharacterSpacing(para) = getCharacterSpacing state para
 
+    /// <summary>Gets the pStyle ID (if none, an empty string).</summary>
+    member public this.TryGetPStyleId(para) = tryGetPStyleId state para
     // -------- Run Properties --------
 
     /// <summary>
@@ -145,8 +147,14 @@ type public StyleEvaluator(archive: ZipArchive) =
     member public this.IsRunCaps(run) = isRunCaps state run
 
     /// <summary>Gets the shading pattern of the run.</summary>
-    member public this.GetRunShadingVal(run) = getRunShadingVal state run
+    member public this.GetRunShadingPattern(run) = getRunShadingPattern state run
+
+    /// <summary>Gets the rStyle ID (if none, an empty string) or the run.</summary>
+    member public this.TryGetRStyleId(run) = tryGetRStyleId state run
     
+    /// <summary>Gets the vertical alignment of the run.</summary>
+    member public this.GetVertAlign(run) = getVertAlign state run
+
     // -------- Cell Properties --------
 
     /// <summary>
@@ -196,3 +204,6 @@ type public StyleEvaluator(archive: ZipArchive) =
 
     /// <summary>Gets an integer tbl property value.</summary>
     member public this.GetTablePropertyInt(tbl, key, defaultValue) = getTablePropertyInt state tbl key defaultValue
+    
+    /// <summary>Gets the tblStyle ID (if none, an empty string).</summary>
+    member public this.TryGetTblStyleId(tbl) = tryGetTblStyleId state tbl

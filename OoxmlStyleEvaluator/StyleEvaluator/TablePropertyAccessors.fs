@@ -6,6 +6,7 @@ module OoxmlStyleEvaluator.TablePropertyAccessors
 open System.Xml.Linq
 open TablePropertiesEvaluator
 open OoxmlStyleEvaluator
+open StyleUtilities
         
 let resolveTableProperty (state: StyleEvaluatorState) (table: XElement) (key: string) : string option =
     resolveEffectiveTableProperty
@@ -28,3 +29,7 @@ let getTablePropertyInt state table key defaultValue =
     resolveTableProperty state table key 
     |> Option.map int 
     |> Option.defaultValue defaultValue
+
+let tryGetTblStyleId state table = 
+    tryGetStyleId table "tblPr" "tblStyle" 
+    |> Option.defaultValue ""

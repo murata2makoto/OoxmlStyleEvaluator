@@ -2,6 +2,7 @@
 
 open System.Xml.Linq
 open ParagraphPropertiesEvaluator
+open StyleUtilities
 
 let resolveParagraphProperty (state: StyleEvaluatorState) (para: XElement) (key: string) =
     resolveEffectiveParagraphProperty
@@ -46,3 +47,7 @@ let getJustificationType state para =
 
 let getCharacterSpacing state para =
     getParagraphPropertyInt state para "spacing/@val" 0
+
+let tryGetPStyleId state para =
+     tryGetStyleId para "pPr" "pStyle"
+     |> Option.defaultValue ""

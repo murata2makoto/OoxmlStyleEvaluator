@@ -6,6 +6,7 @@ module OoxmlStyleEvaluator.RunPropertyAccessors
 open System.Xml.Linq
 open RunPropertiesEvaluator
 open OoxmlStyleEvaluator
+open StyleUtilities
 
 let resolveRunProperty (state: StyleEvaluatorState) (run: XElement) (key: string) =
     resolveEffectiveRunProperty
@@ -51,4 +52,6 @@ let isBold state run = getRunPropertyBool state run "b/@val" false
 let getUnderlineType state run = getRunProperty state run "u/@val" "none"
 let isRunStrike state run = getRunPropertyBool state run "strike/@val" false
 let isRunCaps state run = getRunPropertyBool state run "caps/@val" false
-let getRunShadingVal state run = getRunProperty state run "shd/@val" "nil"
+let tryGetRStyleId state run = tryGetStyleId run "rPr" "rStyle" |> Option.defaultValue ""
+let getRunShadingPattern state run = getRunProperty state run  "shd/@val" "nil"
+let getVertAlign state run = getRunProperty state run "vertAlign/@val" "baseline"

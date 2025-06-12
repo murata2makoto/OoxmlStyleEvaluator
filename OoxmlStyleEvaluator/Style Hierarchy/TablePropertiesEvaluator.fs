@@ -3,6 +3,7 @@
 open System.Xml.Linq
 open XmlHelpers
 open PropertyTypes
+open StyleUtilities
 
     
 /// <summary>
@@ -31,11 +32,10 @@ let resolveEffectiveTableProperty
     | Some v -> Some v
     | None ->
         // Step 2: Try value from table style
+        let tableStyleId = 
+            tryGetStyleId tableElement "tblPr" "tblStyle"
         let fromTableStyle =
-            tableElement
-            |> tryElement (w + "tblPr")
-            |> Option.bind (tryElement (w + "tblStyle"))
-            |> Option.bind (tryAttrValue (w + "val"))
+            tableStyleId
             |> Option.bind (fun styleId ->
                 let styleChain = tableStyleResolver styleId
                 let top = Map.tryFind key styleChain.TopLevel.TblPr
